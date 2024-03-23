@@ -1,5 +1,5 @@
-// src/components/IdentityForm.js
 import React, { useState } from 'react';
+import { getVerificationReq } from '../services/ReclaimService';
 
 function IdentityForm() {
   const [identityData, setIdentityData] = useState({
@@ -7,6 +7,8 @@ function IdentityForm() {
     email: '',
     verificationMethod: ''
   });
+  const [verificationLink, setVerificationLink] = useState('');
+  const [verificationStatus, setVerificationStatus] = useState('');
 
   const handleChange = (e) => {
     setIdentityData({
@@ -15,9 +17,17 @@ function IdentityForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Logic to submit identity verification request
+    try {
+      const { requestUrl, statusUrl } = await getVerificationReq();
+      setVerificationLink(requestUrl);
+      setVerificationStatus('Pending'); // Assume status is pending after initiating request
+      // Add logic to periodically check the statusUrl and update verificationStatus accordingly
+    } catch (error) {
+      console.error('Error initiating verification:', error);
+      // Handle error if needed
+    }
   };
 
   return (
@@ -42,6 +52,15 @@ function IdentityForm() {
         </label>
         <button type="submit">Submit</button>
       </form>
+      {verificationLink && (
+        <div>
+          <p>Verification Link:</p>
+          <a href={verificationLink} target="_blank" rel="noopener noreferrer">{verificationLink}</a>
+        </div>
+      )}
+      {verificationStatus && (
+        <p>Verification Status: {verificationStatus}</p>
+      )}
     </div>
   );
 }

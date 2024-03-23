@@ -1,36 +1,37 @@
-import { Reclaim, ProofRequest } from '@reclaimprotocol/js-sdk';
+import { Reclaim } from '@reclaimprotocol/js-sdk';
 
-const APP_ID = 'YOUR_APPLICATION_ID_HERE'; 
-const reclaim = new Reclaim(APP_ID);
+// Define the app secret key
+const APP_SECRET = "0xfc4384411ac6bde4b2cabe0f77cd214ececb706c6bf604fb60f8c0a35a180c04";
 
-// Function to build a proof request
-export const buildProofRequest = async (providerId) => {
-    const proofRequest = new ProofRequest(APP_ID);
-    await proofRequest.buildProofRequest(providerId);
-    return proofRequest;
-};
+// Function to get verification request
+export const getVerificationReq = async () => {
+    const APP_ID = "0x89cFd30317E616d7eD1d7DC54f4D0449424F0BE9";
+    const reclaimClient = new Reclaim.ProofRequest(APP_ID);
 
-// Function to fetch signature securely from backend
-export const fetchSignature = async (proofRequest) => {
-    // Implement call to your backend to fetch and set signature
-    // ...
-    await proofRequest.setSignature(/* fetched signature */); 
-};
+    const providerIds = [
+        '5e1302ca-a3dd-4ef8-bc25-24fcc97dc800', // Aadhaar Card Date of Birth
+    ];
 
-//  Function to handle full verification flow
-export const requestVerification = async (proofRequest) => {
-    await fetchSignature(proofRequest);
+    // Build proof request
+    await reclaimClient.buildProofRequest(providerIds[0]);
 
-    const { requestUrl } = await proofRequest.createVerificationRequest();
+    // Set app secret key
+    reclaimClient.setSignature(await reclaimClient.generateSignature(APP_SECRET));
 
-     await proofRequest.startSession({
-        onSuccessCallback: (proofs) => {
-            // Handle successful verification (e.g., call BlockchainService to store proofs)
+    // Create verification request
+    const { requestUrl, statusUrl } = await reclaimClient.createVerificationRequest();
+
+    // Start verification session
+    await reclaimClient.startSession({
+        onSuccessCallback: proof => {
+            console.log('Verification success', proof);
+            // Your business logic here
         },
-        onFailureCallback: (error) => {
-            // Handle verification failure
-        },
+        onFailureCallback: error => {
+            console.error('Verification failed', error);
+            // Your business logic here to handle the error
+        }
     });
 
-    return requestUrl;
+    return { requestUrl, statusUrl };
 };
