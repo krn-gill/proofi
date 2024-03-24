@@ -22,15 +22,16 @@ function IdentityForm() {
 
   useEffect(() => {
     const fetchDataAndUpdateComponent = async () => {
-      const newData = await updateVerificaitonStatus();
+      const {status, newData} = await updateVerificaitonStatus();
       console.log(newData)
-      setVerificationStatus(newData.verificationStatus);
-      if(newData.verificationStatus === 'Verified') {
+      setVerificationStatus(status.verificationStatus);
+      if(status.verificationStatus === 'Verified') {
         setVerificationSuccess(true);
-        
-        
-        // const claimDataString = newData[0].extractedParameterValues.CLAIM_DATA;
-        // console.log(claimDataString)
+        console.log(newData[0])      
+        console.log(newData[0].extractedParameterValues)
+        console.log(newData[0].extractedParameterValues.CLAIM_DATA)
+        console.log(newData[0].extractedParameterValues.CLAIM_DATA.replace(/^"|"$/g, ''))
+
 
 // Parse the CLAIM_DATA string, assuming it is properly formatted JSON
 // First, remove the escaped quotes at the beginning and end
@@ -91,16 +92,26 @@ function IdentityForm() {
     try {
       const { requestUrl, statusUrl } = await getVerificationReq();
       setVerificationLink(requestUrl);
-      setVerificationStatus('Pending'); // Assume status is pending after initiating request
+      setVerificationStatus('Pending');
+       // Assume status is pending after initiating request
+       var uri = '';
+       var to = '';
       try {
         // Make a GET request to the API endpoint
         console.log(identityData.phone,requestUrl )
-        const response = await fetch('http://localhost:3500/send-sms', {
+        if (identityData.phone.trim() === '') {
+          uri = 'http://localhost:3500/send-email';
+          to = identityData.email;
+        } else {
+          uri = 'http://localhost:3500/send-sms';
+          to = identityData.phone;
+        }
+        const response = await fetch(uri, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ to: identityData.phone, text: requestUrl})
+          body: JSON.stringify({ to: to, text: requestUrl})
         });
 
         if (response.ok) {

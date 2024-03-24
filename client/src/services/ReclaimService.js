@@ -52,5 +52,5 @@ export const updateVerificaitonStatus = async () => {
             }
         });
     });
-    return {verificationStatus};
+    return {verificationStatus, proof};
 }

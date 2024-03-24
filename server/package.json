@@ -10,10 +10,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@elasticemail/elasticemail-client": "^4.0.23",
     "@vonage/server-sdk": "^3.14.0",
     "cors": "^2.8.5",
     "express": "^4.19.1",
+    "mailgun": "^0.5.0",
+    "mailgun-js": "^0.22.0",
+    "mailgun.js": "^10.2.1",
     "mongodb": "^6.5.0",
-    "mongoose": "^8.2.3"
+    "mongoose": "^8.2.3",
+    "node-mailjet": "^6.0.5",
+    "nodemailer": "^6.9.13"
   }
 }
