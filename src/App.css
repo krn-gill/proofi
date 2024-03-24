@@ -1,6 +1,7 @@
 /* Center align all content */
 .App {
   text-align: center;
+  background-color: #1a1a1a;
 }
 
 /* Adjust logo size and animation */
