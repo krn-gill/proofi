@@ -1,0 +1,25 @@
+nav ul li a{
+    text-decoration: none ;
+    transition: 1s;
+}
+
+div a{
+    text-decoration: none ;
+    
+}
+
+#anim{
+  animation: blinker 2s linear infinite;
+
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+nav ul li a:hover{
+  text-decoration: underline ;
+}
