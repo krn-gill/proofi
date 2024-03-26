@@ -22,15 +22,17 @@ function IdentityForm() {
 
   useEffect(() => {
     const fetchDataAndUpdateComponent = async () => {
-      const {status, newData} = await updateVerificaitonStatus();
-      console.log(newData)
-      setVerificationStatus(status.verificationStatus);
-      if(status.verificationStatus === 'Verified') {
+      const {verificationStatus, proof} = await updateVerificaitonStatus();
+      console.log("hello")
+      console.log(proof)
+      console.log(verificationStatus)
+      setVerificationStatus(verificationStatus);
+      if(verificationStatus === 'Verified') {
         setVerificationSuccess(true);
-        console.log(newData[0])      
-        console.log(newData[0].extractedParameterValues)
-        console.log(newData[0].extractedParameterValues.CLAIM_DATA)
-        console.log(newData[0].extractedParameterValues.CLAIM_DATA.replace(/^"|"$/g, ''))
+        console.log(proof[0])      
+        console.log(proof[0].extractedParameterValues)
+        console.log(proof[0].extractedParameterValues.CLAIM_DATA)
+        console.log(proof[0].extractedParameterValues.CLAIM_DATA.replace(/^"|"$/g, ''))
 
 
 // Parse the CLAIM_DATA string, assuming it is properly formatted JSON

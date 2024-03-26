@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <>
     	  <header class="fixed-top w-full h-20 bg- ">
-        <nav class=" border-gray-200 dark:bg-gray-900">
+        <nav class=" border-gray-800 dark:bg-gray-900">
             <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
                 <a href="#" class="flex items-center">
                     <img src={logo} class="h-6 mr-3 sm:h-9" alt="Landwind Logo" />

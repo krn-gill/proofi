@@ -52,5 +52,8 @@ export const updateVerificaitonStatus = async () => {
             }
         });
     });
+    console.log("Sumon is pgal")
+    console.log(verificationStatus);
+    console.log(proof);
     return {verificationStatus, proof};
 }
