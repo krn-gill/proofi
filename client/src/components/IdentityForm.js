@@ -19,6 +19,7 @@ function IdentityForm() {
   const [verifiedData, setVerifiedData] = useState({
     dob: '1998-02-02',
   });
+  const serverUri = 'http://proofi.hwezdvb8hgfea4c6.eastus.azurecontainer.io'
 
   useEffect(() => {
     const fetchDataAndUpdateComponent = async () => {
@@ -102,10 +103,10 @@ function IdentityForm() {
         // Make a GET request to the API endpoint
         console.log(identityData.phone,requestUrl )
         if (identityData.phone.trim() === '') {
-          uri = 'http://localhost:3500/send-email';
+          uri = serverUri+'/send-email';
           to = identityData.email;
         } else {
-          uri = 'http://localhost:3500/send-sms';
+          uri = serverUri+'/send-sms';
           to = identityData.phone;
         }
         const response = await fetch(uri, {
